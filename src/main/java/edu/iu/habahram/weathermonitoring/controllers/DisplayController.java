@@ -1,9 +1,6 @@
 package edu.iu.habahram.weathermonitoring.controllers;
 
-import edu.iu.habahram.weathermonitoring.model.CurrentConditionDisplay;
-import edu.iu.habahram.weathermonitoring.model.ForecastDisplay;
-import edu.iu.habahram.weathermonitoring.model.Observer;
-import edu.iu.habahram.weathermonitoring.model.StatisticsDisplay;
+import edu.iu.habahram.weathermonitoring.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +11,18 @@ import org.springframework.web.bind.annotation.*;
 public class DisplayController {
     private CurrentConditionDisplay currentConditionDisplay;
 
-    public DisplayController(CurrentConditionDisplay currentConditionDisplay
+    public DisplayController(CurrentConditionDisplay currentConditionDisplay,StatisticsDisplay statisticsDisplay
+                             , IndexDisplay indexDisplay
                              ) {
         this.currentConditionDisplay = currentConditionDisplay;
+        this.statisticsDisplay=statisticsDisplay;
+        this.indexDisplay=indexDisplay;
     }
-    @Autowired
+
     private StatisticsDisplay statisticsDisplay;
+
+    private IndexDisplay indexDisplay;
+
 
 
 
@@ -33,6 +36,9 @@ public class DisplayController {
         html += "</li>";
         html += "<li>";
         html += String.format("<a href=/displays/%s>%s</a>", statisticsDisplay.id(), statisticsDisplay.name());
+        html += "</li>";
+        html += "<li>";
+        html += String.format("<a href=/displays/%s>%s</a>", indexDisplay.id(), indexDisplay.name());
         html += "</li>";
 
         html += "</ul>";
@@ -54,6 +60,10 @@ public class DisplayController {
             html = statisticsDisplay.display();
             status = HttpStatus.FOUND;
         }
+        else if(id.equalsIgnoreCase(indexDisplay.id())){
+            html = indexDisplay.display();
+            status = HttpStatus.FOUND;
+        }
         return ResponseEntity
                 .status(status)
                 .body(html);
@@ -70,6 +80,11 @@ public class DisplayController {
         }
         else if (id.equalsIgnoreCase(statisticsDisplay.id())){
             statisticsDisplay.subscribe();
+            html = "Subscribed!";
+            status = HttpStatus.FOUND;
+        }
+        else if (id.equalsIgnoreCase(indexDisplay.id())){
+            indexDisplay.subscribe();
             html = "Subscribed!";
             status = HttpStatus.FOUND;
         }
@@ -92,6 +107,11 @@ public class DisplayController {
             status = HttpStatus.FOUND;
         } else if (id.equalsIgnoreCase(statisticsDisplay.id())){
             statisticsDisplay.unsubscribe();
+            html = "Unsubscribed!";
+            status = HttpStatus.FOUND;
+        }
+        else if (id.equalsIgnoreCase(indexDisplay.id())){
+            indexDisplay.unsubscribe();
             html = "Unsubscribed!";
             status = HttpStatus.FOUND;
         }
