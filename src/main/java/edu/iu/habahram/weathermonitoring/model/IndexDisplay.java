@@ -9,7 +9,7 @@ public class IndexDisplay implements Observer, DisplayElement{
     private float humidity;
     private float pressure;
 
-
+     private float heatindex;
 
 
 
@@ -31,7 +31,7 @@ public class IndexDisplay implements Observer, DisplayElement{
         html += "<section>";
         html +=" <h1>Weather</h1>";
         html +=" <h1>HeatIndex</h1>";
-        float heatindex=computeHeatIndex(temperature,humidity);
+
         html += String.format("<label>Index: %s</label>", heatindex);
         html += "</section>";
         html += "</div>";
@@ -44,6 +44,7 @@ public class IndexDisplay implements Observer, DisplayElement{
         this.temperature = temperature;
         this.humidity = humidity;
         this.pressure = pressure;
+        this.heatindex=computeHeatIndex(temperature,humidity);
 
     }
 

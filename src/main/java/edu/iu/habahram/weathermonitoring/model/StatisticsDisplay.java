@@ -72,7 +72,7 @@ public class StatisticsDisplay implements Observer, DisplayElement{
         this.humidity = humidity;
         this.pressure = pressure;
 
-       ts.add(temperature);
+       this.ts.add(temperature);
 
     }
 
